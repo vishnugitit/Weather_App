@@ -4,53 +4,309 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Forecast</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500&family=Poppins:wght@700&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* General Styles */
+
+      body {
+        font-family: "Lato", sans-serif;
+        margin: 0;
+        padding: 0;
+        /* background: linear-gradient(135deg, #74b9ff, #0984e3); */
+        color: #fff;
+        text-align: center; /* Centering text globally */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        transition: background 0.3s ease;
+      }
+
+      .container {
+        background: linear-gradient(135deg, #74b9ff, #0984e3);
+        /* background: rgba(255, 255, 255, 0.1); */
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+      }
+
+      h1 {
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem;
+      }
+
+      input {
+        padding: 0.8rem;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      input:focus {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      button {
+        background: #1abc9c;
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.2rem; /* Reduced padding */
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      #result {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      #result h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        color: #f1c40f;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      }
+
+      .weather-info p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin: 0.5rem 0;
+        font-weight: 500;
+        color: #000;
+        padding: 0.5rem;
+        border-radius: 5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease,
+          background 0.3s ease;
+      }
+
+      .weather-info p.temp {
+        background: rgba(255, 87, 51, 0.8);
+      }
+
+      .weather-info p.humidity {
+        background: rgba(52, 152, 219, 0.8);
+      }
+
+      .weather-info p.wind {
+        background: rgba(46, 204, 113, 0.8);
+      }
+
+      .weather-info p.cloud {
+        background: rgba(127, 140, 141, 0.8);
+      }
+
+      .weather-info p:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .weather-info img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .loading {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #1abc9c;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+        margin: 20px auto;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .error-message {
+        font-family: "Lato", sans-serif;
+        color: red;
+        font-weight: bold;
+        font-size: 1.7rem;
+        margin-top: 1rem;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        input,
+        button {
+          font-size: 0.9rem;
+        }
+
+        button {
+          padding: 0.5rem 1rem; /* Reduce padding on medium screens */
+        }
+
+        #result h2 {
+          font-size: 1.8rem;
+        }
+
+        .weather-info p {
+          font-size: 0.9rem;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1rem;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        input,
+        button {
+          font-size: 0.8rem;
+        }
+
+        button {
+          padding: 0.4rem 0.8rem; /* Further reduce padding on smaller screens */
+        }
+
+        #result h2 {
+          font-size: 1.5rem;
+        }
+
+        .weather-info p {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>Weather Forecast</h1>
       <input type="text" id="city" placeholder="Enter Your City" />
       <button id="getWeather">Get Weather</button>
+      <button id="clear" style="background: #e74c3c">Clear</button>
+      <div id="result"></div>
     </div>
-    <div id="result"></div>
-  </body>
-  <script>
-    document.getElementById("getWeather").addEventListener("click", () => {
-      let city = document.getElementById("city").value;
-      if (city) {
-        fetchdata(city);
-      } else {
-        alert("Enter Your City");
-      }
-    });
 
-    async function fetchdata(city) {
-      const apikey = "3997ecbd5badcb4651e5823639e1d4d5";
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`;
-      try {
-        let response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("City not Found");
+    <script>
+      document.getElementById("getWeather").addEventListener("click", () => {
+        let city = document.getElementById("city").value;
+        if (city) {
+          fetchdata(city);
+        } else {
+          displayError("Enter Your City");
         }
-        let data = await response.json();
-        display(data);
-      } catch (error) {
-        let a = document.getElementById("result");
-        a.style.color = "red";
-        a.innerHTML = error.message;
+      });
+
+      document.getElementById("clear").addEventListener("click", () => {
+        document.getElementById("city").value = "";
+        document.getElementById("result").innerHTML = "";
+        document.body.style.background =
+          "linear-gradient(135deg, #74b9ff, #0984e3)";
+      });
+
+      async function fetchdata(city) {
+        const apikey = "3997ecbd5badcb4651e5823639e1d4d5";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.cod !== "404") {
+          const weather = data.weather[0];
+          const main = data.main;
+          const wind = data.wind;
+
+          // Set weather icon URL for weather condition (clouds, rain, etc.)
+          const weatherIconUrl = `https://openweathermap.org/img/wn/${weather.icon}@2x.png`;
+
+          // Icons for Wind, Temperature, Humidity, and Cloud
+          const icons = {
+            temp: "https://img.icons8.com/ios/50/000000/temperature.png",
+            humidity: "https://img.icons8.com/ios/50/000000/humidity.png",
+            wind: "https://img.icons8.com/ios/50/000000/wind.png",
+            cloud: "https://img.icons8.com/ios/50/000000/cloud.png",
+          };
+
+          // Constructing the result block
+          const resultHTML = `
+            <div class="weather-info">
+              <h2> ${city}</h2>
+              <p class="temp">
+                <img src="${icons.temp}" alt="Temperature" />
+                Temperature: ${main.temp}°C
+              </p>
+              <p class="humidity">
+                <img src="${icons.humidity}" alt="Humidity" />
+                Humidity: ${main.humidity}%
+              </p>
+              <p class="wind">
+                <img src="${icons.wind}" alt="Wind" />
+                Wind Speed: ${wind.speed} m/s
+              </p>
+              <p class="cloud">
+                <img src="${icons.cloud}" alt="Cloud" />
+                Climate: ${weather.description}
+              </p>
+              <p class="cloud">
+                <img src="${icons.cloud}" alt="Cloud" />
+                Cloud: ${data.clouds.all}%
+              </p>
+              
+                  <p>Last updated: ${new Date().toLocaleString()}</p>
+            </div>
+          `;
+
+          document.getElementById("result").innerHTML = resultHTML;
+          //   document.body.style.background =
+          //     "linear-gradient(135deg, #00b894, #00cec9)"; // Change background
+        } else {
+          displayError("City not found!");
+        }
       }
-    }
 
-    function display(data) {
-      const { main, name, weather, wind } = data;
-      let b = document.getElementById("result");
-
-      b.innerHTML = `
-        <h1>${name}</h1>
-        <p>Temperature: ${main.temp}°C</p>
-        <p>Humidity: ${main.humidity}%</p>
-        <p>Cloud: ${weather[0].description}</p>
-        <p>Wind: ${wind.speed} km/h</p>
-      `
-    }
-  </script>
+      function displayError(message) {
+        document.getElementById(
+          "result"
+        ).innerHTML = `<p class="error-message">${message}</p>`;
+      }
+    </script>
+  </body>
 </html>
